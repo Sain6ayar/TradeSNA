@@ -1,5 +1,10 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
-import { parseLines, extractReportDate } from '../src/lib/cotParser';
+// NOTE: the .js extension is required, not a typo. Vercel transpiles this file
+// to ESM (package.json says "type": "module") and emits the specifier verbatim,
+// and Node's ESM resolver does not guess extensions. TypeScript maps the .js
+// back to the .ts source, so both sides are satisfied.
+import { parseLines, extractReportDate } from '../src/lib/cotParser.js';
 
 /**
  * Downloads the latest Commitment of Traders reports from cftc.gov, parses
@@ -16,21 +21,26 @@ const URLS = {
 
 export const config = { maxDuration: 60 };
 
-export default async function handler(req: Request): Promise<Response> {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
-        return json({ error: 'Method not allowed' }, 405);
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
     const supabaseUrl = process.env.SUPABASE_URL;
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (!supabaseUrl || !serviceKey) {
-        return json({ status: 'ERROR', date: '', log: ['Server is missing Supabase credentials.'] }, 500);
+        return res.status(500).json({
+            status: 'ERROR', date: '',
+            log: ['Server is missing Supabase credentials.'],
+        });
     }
 
     // Only signed-in users may trigger a refresh.
-    const authHeader = req.headers.get('authorization') || '';
+    const authHeader = req.headers.authorization || '';
     const token = authHeader.replace(/^Bearer\s+/i, '');
-    if (!token) return json({ status: 'ERROR', date: '', log: ['Not signed in.'] }, 401);
+    if (!token) {
+        return res.status(401).json({ status: 'ERROR', date: '', log: ['Not signed in.'] });
+    }
 
     const admin = createClient(supabaseUrl, serviceKey, {
         auth: { persistSession: false, autoRefreshToken: false },
@@ -38,7 +48,7 @@ export default async function handler(req: Request): Promise<Response> {
 
     const { data: userData, error: userError } = await admin.auth.getUser(token);
     if (userError || !userData?.user) {
-        return json({ status: 'ERROR', date: '', log: ['Invalid session.'] }, 401);
+        return res.status(401).json({ status: 'ERROR', date: '', log: ['Invalid session.'] });
     }
 
     const log: string[] = ['=== AUTOMATED FETCH LOG ==='];
@@ -72,7 +82,7 @@ export default async function handler(req: Request): Promise<Response> {
         if (existing) {
             if (JSON.stringify(existing.data) === JSON.stringify(data)) {
                 log.push('Data already exists and matches. Up to date.');
-                return json({ status: 'UP_TO_DATE', date, log });
+                return res.status(200).json({ status: 'UP_TO_DATE', date, log });
             }
             status = 'UPDATED';
             log.push('Data for date exists but differs. Overwriting.');
@@ -85,16 +95,10 @@ export default async function handler(req: Request): Promise<Response> {
             .upsert({ date, data, fetched_at: new Date().toISOString() }, { onConflict: 'date' });
         if (writeError) throw new Error(writeError.message);
 
-        return json({ status, date, log });
+        return res.status(200).json({ status, date, log });
     } catch (err: any) {
         log.push(`CRITICAL ERROR: ${err.message}`);
-        return json({ status: 'ERROR', date: '', log }, 200);
+        // 200 with an ERROR status: the COT debug panel renders this log.
+        return res.status(200).json({ status: 'ERROR', date: '', log });
     }
-}
-
-function json(body: unknown, status = 200): Response {
-    return new Response(JSON.stringify(body), {
-        status,
-        headers: { 'content-type': 'application/json' },
-    });
 }

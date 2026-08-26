@@ -147,3 +147,6 @@ tradeslate.db-shm
 tradeslate.db-wal
 *.sqlite
 *.sqlite3
+
+.vercel
+.env*

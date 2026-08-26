@@ -1,3 +1,5 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
 /**
  * Fetches a third-party chart screenshot and returns it as a data URL.
  *
@@ -11,9 +13,7 @@
  */
 const ALLOWED_HOSTS = [
     'bookmap.com',
-    'www.bookmap.com',
     's3.tradingview.com',
-    'www.tradingview.com',
     'tradingview.com',
     'img.youtube.com',
     'i.ytimg.com',
@@ -23,26 +23,28 @@ const MAX_BYTES = 12 * 1024 * 1024; // 12 MB
 
 export const config = { maxDuration: 30 };
 
-export default async function handler(req: Request): Promise<Response> {
-    const target = new URL(req.url).searchParams.get('url');
-    if (!target) return text('Missing url parameter', 400);
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    const raw = req.query.url;
+    const target = Array.isArray(raw) ? raw[0] : raw;
+
+    if (!target) return res.status(400).send('Missing url parameter');
 
     let parsed: URL;
     try {
         parsed = new URL(target);
     } catch {
-        return text('Malformed url', 400);
+        return res.status(400).send('Malformed url');
     }
 
     if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-        return text('Only http(s) URLs are supported', 400);
+        return res.status(400).send('Only http(s) URLs are supported');
     }
 
+    // Exact host, or a subdomain of an allowed host. Substring matching would
+    // let `bookmap.com.evil.tld` through.
     const host = parsed.hostname.toLowerCase();
     const allowed = ALLOWED_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
-    if (!allowed) {
-        return text(`Host not allowed: ${host}`, 403);
-    }
+    if (!allowed) return res.status(403).send(`Host not allowed: ${host}`);
 
     try {
         const upstream = await fetch(parsed.toString(), {
@@ -54,12 +56,7 @@ export default async function handler(req: Request): Promise<Response> {
         });
 
         if (!upstream.ok) {
-            return text(`Upstream returned ${upstream.status}`, 502);
-        }
-
-        const buffer = await upstream.arrayBuffer();
-        if (buffer.byteLength > MAX_BYTES) {
-            return text('Image too large', 413);
+            return res.status(502).send(`Upstream returned ${upstream.status}`);
         }
 
         const contentType = upstream.headers.get('content-type') || 'image/png';
@@ -69,26 +66,19 @@ export default async function handler(req: Request): Promise<Response> {
         else if (contentType.includes('webp')) mimeType = 'image/webp';
         else if (contentType.includes('png')) mimeType = 'image/png';
         else if (!contentType.startsWith('image/')) {
-            return text('Upstream did not return an image', 415);
+            return res.status(415).send('Upstream did not return an image');
         }
 
-        const base64 = Buffer.from(buffer).toString('base64');
+        const buffer = Buffer.from(await upstream.arrayBuffer());
+        if (buffer.byteLength > MAX_BYTES) {
+            return res.status(413).send('Image too large');
+        }
 
-        return new Response(
-            JSON.stringify({ dataUrl: `data:${mimeType};base64,${base64}` }),
-            {
-                status: 200,
-                headers: {
-                    'content-type': 'application/json',
-                    'cache-control': 'public, max-age=86400',
-                },
-            }
-        );
+        res.setHeader('cache-control', 'public, max-age=86400');
+        return res.status(200).json({
+            dataUrl: `data:${mimeType};base64,${buffer.toString('base64')}`,
+        });
     } catch (err: any) {
-        return text(`Fetch failed: ${err.message}`, 502);
+        return res.status(502).send(`Fetch failed: ${err.message}`);
     }
-}
-
-function text(body: string, status: number): Response {
-    return new Response(body, { status, headers: { 'content-type': 'text/plain' } });
 }

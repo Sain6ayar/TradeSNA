@@ -14,7 +14,7 @@ interface AccountContextType {
     loading: boolean;
     setActiveAccount: (id: string) => void;
     refreshAccounts: () => Promise<void>;
-    createAccount: (name: string, color?: string) => Promise<void>;
+    createAccount: (name: string, color?: string) => Promise<string>;
     updateAccount: (id: string, data: Partial<Account>) => Promise<void>;
     deleteAccount: (id: string) => Promise<void>;
 }
@@ -57,8 +57,11 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
     };
 
     const createAccount = async (name: string, color?: string) => {
-        await window.electronAPI.accounts.create(name, color);
+        // Return the new id: AccountSelector auto-selects the account it just
+        // created, and was previously handed undefined.
+        const created = await window.electronAPI.accounts.create(name, color);
         await refreshAccounts();
+        return created.id;
     };
 
     const updateAccount = async (id: string, data: Partial<Account>) => {

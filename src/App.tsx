@@ -15,7 +15,8 @@ type Page = 'dashboard' | 'stats' | 'journal' | 'calendar' | 'review' | 'tradeca
 
 import { AccountSelector } from './components/AccountSelector';
 
-import { LayoutDashboard, LineChart, Book, Calendar as CalendarIcon, Settings as SettingsIcon, ClipboardCheck, IdCard, Landmark } from 'lucide-react';
+import { LayoutDashboard, LineChart, Book, Calendar as CalendarIcon, Settings as SettingsIcon, ClipboardCheck, IdCard, Landmark, LogOut } from 'lucide-react';
+import { supabase } from './lib/supabase';
 import { focusedConfirm } from './utils/dialogUtils';
 
 function App() {
@@ -85,6 +86,13 @@ function App() {
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isDirty]); // Re-bind when isDirty changes to handle confirmation correctly
+
+    // First run for a new account: populate the default affirmations so the
+    // dashboard's quote widget has something to show.
+    useEffect(() => {
+        window.electronAPI.quotes.init().catch((e: any) =>
+            console.warn('Quote seeding skipped:', e));
+    }, []);
 
     return (
         <AccountProvider>
@@ -181,6 +189,19 @@ function App() {
                             style={{ padding: '8px' }}
                         >
                             <SettingsIcon size={20} />
+                        </button>
+
+                        <button
+                            className="btn"
+                            onClick={async () => {
+                                if (await focusedConfirm('Sign out of TradeSlate?')) {
+                                    await supabase.auth.signOut();
+                                }
+                            }}
+                            title="Sign out"
+                            style={{ padding: '8px' }}
+                        >
+                            <LogOut size={20} />
                         </button>
                     </div>
                 </nav>

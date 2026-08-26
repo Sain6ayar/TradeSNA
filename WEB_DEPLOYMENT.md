@@ -1,5 +1,13 @@
 # TradeSlate Web — deployment guide
 
+**Live:** https://tradesna.vercel.app
+Vercel project `mhr4/tradesna` · Supabase project `cddtnelubkwavycfpjkn`
+
+Deploys run from a local checkout (`npx vercel deploy --prod`), not from git —
+the repo `Aikzar/TradeSlate` is read-only for this account, so the `web` branch
+lives locally. Connecting git later is a dashboard toggle and changes nothing
+about the build.
+
 This branch (`web`) is the browser build of TradeSlate: same React UI, with the
 Electron/SQLite backend replaced by Supabase (Postgres + Auth + Storage) and two
 Vercel serverless routes.

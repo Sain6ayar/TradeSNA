@@ -3,10 +3,13 @@
 **Live:** https://tradesna.vercel.app
 Vercel project `mhr4/tradesna` · Supabase project `cddtnelubkwavycfpjkn`
 
-Deploys run from a local checkout (`npx vercel deploy --prod`), not from git —
-the repo `Aikzar/TradeSlate` is read-only for this account, so the `web` branch
-lives locally. Connecting git later is a dashboard toggle and changes nothing
-about the build.
+Source lives at `Sain6ayar/TradeSNA` on the `web` branch — a fork of the
+upstream desktop app at `Aikzar/TradeSlate`, which is read-only for this
+account. Vercel builds from that repo, so **`web` must be set as the
+Production Branch**: the fork's `main` still carries the Electron app and
+would not produce a working site.
+
+Manual deploys still work as a fallback: `npx vercel deploy --prod`.
 
 This branch (`web`) is the browser build of TradeSlate: same React UI, with the
 Electron/SQLite backend replaced by Supabase (Postgres + Auth + Storage) and two

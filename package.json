@@ -1,8 +1,8 @@
 {
-  "name": "tradeslate-web",
+  "name": "tradesna-web",
   "private": true,
   "version": "1.0.0",
-  "description": "TradeSlate - trading journal (web)",
+  "description": "TradeSNA - trading journal (web)",
   "author": "Antigravity",
   "license": "PolyForm-Noncommercial-1.0.0",
   "type": "module",
@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",
-    "html2canvas": "^1.4.1",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",

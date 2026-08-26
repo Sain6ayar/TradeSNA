@@ -1,17 +1,17 @@
-# TradeSlate Web — deployment guide
+# TradeSNA Web — deployment guide
 
 **Live:** https://tradesna.vercel.app
 Vercel project `mhr4/tradesna` · Supabase project `cddtnelubkwavycfpjkn`
 
 Source lives at `Sain6ayar/TradeSNA` on the `web` branch — a fork of the
-upstream desktop app at `Aikzar/TradeSlate`, which is read-only for this
+upstream desktop app at `Aikzar/TradeSNA`, which is read-only for this
 account. Vercel builds from that repo, so **`web` must be set as the
 Production Branch**: the fork's `main` still carries the Electron app and
 would not produce a working site.
 
 Manual deploys still work as a fallback: `npx vercel deploy --prod`.
 
-This branch (`web`) is the browser build of TradeSlate: same React UI, with the
+This branch (`web`) is the browser build of TradeSNA: same React UI, with the
 Electron/SQLite backend replaced by Supabase (Postgres + Auth + Storage) and two
 Vercel serverless routes.
 
@@ -113,7 +113,7 @@ state routing, no router library).
 Nothing is retyped — the web app reads the desktop app's own backup format.
 
 1. In the **desktop** app: `Settings → Data → Export Data`, save the
-   `tradeslate_backup_YYYY-MM-DD.json` file.
+   `tradesna_backup_YYYY-MM-DD.json` file.
 2. In the **web** app: sign up, then `Settings → Data → Import Data` and pick
    that file.
 

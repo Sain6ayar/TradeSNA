@@ -1,12 +1,12 @@
 -- ============================================================
--- TradeSlate Web :: complete setup
+-- TradeSNA Web :: complete setup
 -- Paste this whole file into the Supabase SQL Editor and Run.
 -- Combines supabase/migrations/0001_init.sql + 0002_storage.sql
 -- Safe to re-run: every statement is idempotent.
 -- ============================================================
 
 -- =====================================================================
--- TradeSlate Web :: initial schema
+-- TradeSNA Web :: initial schema
 -- Port of the desktop SQLite schema to Postgres with per-user isolation.
 --
 -- Design notes:
@@ -237,7 +237,7 @@ create trigger on_auth_user_created
 
 
 -- =====================================================================
--- TradeSlate Web :: trade screenshot storage
+-- TradeSNA Web :: trade screenshot storage
 --
 -- Private bucket. Objects are keyed `<user_id>/<uuid>.<ext>`, and the
 -- policies below pin the first path segment to the caller's auth.uid(), so

@@ -1,5 +1,5 @@
 -- =====================================================================
--- TradeSlate Web :: trade screenshot storage
+-- TradeSNA Web :: trade screenshot storage
 --
 -- Private bucket. Objects are keyed `<user_id>/<uuid>.<ext>`, and the
 -- policies below pin the first path segment to the caller's auth.uid(), so

@@ -1,5 +1,5 @@
 -- =====================================================================
--- TradeSlate Web :: initial schema
+-- TradeSNA Web :: initial schema
 -- Port of the desktop SQLite schema to Postgres with per-user isolation.
 --
 -- Design notes:

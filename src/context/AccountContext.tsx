@@ -45,7 +45,9 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         // Load persisted selection
-        const saved = localStorage.getItem('tradeslate_active_account');
+        // Falls back to the pre-rename key so an existing selection survives.
+        const saved = localStorage.getItem('tradesna_active_account')
+            ?? localStorage.getItem('tradeslate_active_account');
         if (saved) setActiveAccountState(saved);
 
         refreshAccounts();
@@ -53,7 +55,7 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
 
     const setActiveAccount = (id: string) => {
         setActiveAccountState(id);
-        localStorage.setItem('tradeslate_active_account', id);
+        localStorage.setItem('tradesna_active_account', id);
     };
 
     const createAccount = async (name: string, color?: string) => {

@@ -494,12 +494,10 @@ export function Settings() {
 
             <div className="card flex-col gap-2 p-5">
                 <div style={{ color: 'var(--text-secondary)', fontSize: '13px', lineHeight: '1.6' }}>
-                    <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>TradeSlate v1.0.0 (Beta)</div>
-                    <div><strong>Local Storage</strong>: Your journal data is stored 100% on this device.</div>
-                    <div><strong>AI Privacy</strong>: AI analysis uses the Gemini API. While your core database is local, specific trade data sent for "Ask AI" is processed by Google Cloud.</div>
+                    <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>TradeSNA v1.0.0 (Beta)</div>
+                    <div><strong>Your Data</strong>: Stored privately in your own account. Row Level Security means no other user can read or write your trades.</div>
                     <div><strong>Systemic Core</strong>: Built for rules-based execution.</div>
-                    <div><strong>Technical</strong>: WebGPU/WASM Enabled.</div>
-                    <div style={{ marginTop: '8px' }}><strong>Support</strong>: <a href="https://github.com/Aikzar/TradeSlate" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>Github</a></div>
+                    <div><strong>Voice Notes</strong>: Browser dictation, available in Chrome and Edge.</div>
                 </div>
             </div>
         </div>
@@ -1306,7 +1304,7 @@ function AIPromptSettings() {
             </div>
 
             <div className="mt-8 pt-4 border-t border-white/5 text-[10px] text-zinc-600 flex justify-between">
-                <span>TradeSlate v1.1.0</span>
+                <span>TradeSNA v1.1.0</span>
                 <span>Build: 2026-02-09 18:35:00</span>
             </div>
         </div>

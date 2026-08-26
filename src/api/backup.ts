@@ -135,7 +135,7 @@ export const backupApi = {
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = `tradeslate_backup_${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `tradesna_backup_${new Date().toISOString().split('T')[0]}.json`;
         document.body.appendChild(a);
         a.click();
         a.remove();

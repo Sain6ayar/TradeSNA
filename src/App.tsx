@@ -5,17 +5,16 @@ import { Stats } from './pages/Stats';
 import { Journal } from './pages/Journal';
 import { CalendarPage } from './pages/CalendarPage';
 import { TradeReview } from './pages/TradeReview';
-import { TradeCardPage } from './pages/TradeCardPage';
 import { Settings } from './pages/Settings';
 import { COTPage } from './pages/COTPage';
 import { AccountProvider } from './context/AccountContext';
 
 
-type Page = 'dashboard' | 'stats' | 'journal' | 'calendar' | 'review' | 'tradecard' | 'settings' | 'cot';
+type Page = 'dashboard' | 'stats' | 'journal' | 'calendar' | 'review' | 'settings' | 'cot';
 
 import { AccountSelector } from './components/AccountSelector';
 
-import { LayoutDashboard, LineChart, Book, Calendar as CalendarIcon, Settings as SettingsIcon, ClipboardCheck, IdCard, Landmark, LogOut } from 'lucide-react';
+import { LayoutDashboard, LineChart, Book, Calendar as CalendarIcon, Settings as SettingsIcon, ClipboardCheck, Landmark, LogOut } from 'lucide-react';
 import { supabase } from './lib/supabase';
 import { focusedConfirm } from './utils/dialogUtils';
 
@@ -74,10 +73,6 @@ function App() {
                     case 'r':
                         e.preventDefault();
                         navigate('review');
-                        break;
-                    case 't':
-                        e.preventDefault();
-                        navigate('tradecard');
                         break;
                 }
             }
@@ -165,14 +160,6 @@ function App() {
                         >
                             <Landmark size={20} />
                         </button>
-                        <button
-                            className={`btn ${page === 'tradecard' ? 'btn-primary' : ''}`}
-                            onClick={() => navigate('tradecard')}
-                            title="Trade Card (Ctrl+T)"
-                            style={{ padding: '8px' }}
-                        >
-                            <IdCard size={20} />
-                        </button>
                     </div>
 
                     {/* Bottom Group: Account & Settings */}
@@ -194,7 +181,7 @@ function App() {
                         <button
                             className="btn"
                             onClick={async () => {
-                                if (await focusedConfirm('Sign out of TradeSlate?')) {
+                                if (await focusedConfirm('Sign out of TradeSNA?')) {
                                     await supabase.auth.signOut();
                                 }
                             }}
@@ -223,7 +210,6 @@ function App() {
                         />
                     )}
                     {page === 'review' && <TradeReview />}
-                    {page === 'tradecard' && <TradeCardPage />}
                     {page === 'cot' && <COTPage />}
                     {page === 'settings' && <Settings />}
                 </main>

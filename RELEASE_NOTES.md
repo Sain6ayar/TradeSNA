@@ -2,7 +2,7 @@
 
 **Release Date:** 2026-02-16
 
-Welcome to the first public beta of **TradeSlate**, the professional offline-first trading journal designed for privacy, performance, and power users. This release brings a complete suite of tools to log, analyze, and improve your trading performance without your data ever leaving your machine.
+Welcome to the first public beta of **TradeSNA**, the professional offline-first trading journal designed for privacy, performance, and power users. This release brings a complete suite of tools to log, analyze, and improve your trading performance without your data ever leaving your machine.
 
 ## 🌟 Key Features
 
@@ -56,11 +56,11 @@ Welcome to the first public beta of **TradeSlate**, the professional offline-fir
 
 ## 🚀 Getting Started
 
-1.  **Install**: Run `TradeSlate Setup 1.0.0.exe`.
+1.  **Install**: Run `TradeSNA Setup 1.0.0.exe`.
 2.  **Explore**: Use **Settings > Data Management > Seed Demo Data** to load example trades.
 3.  **Configure**: Set up your Accounts and (optionally) your Gemini API Key in Settings.
 4.  **Journal**: Start logging your trades!
 
 ---
 
-*Thank you for being part of the TradeSlate journey. Report bugs and feature requests on our GitHub.*
+*Thank you for being part of the TradeSNA journey. Report bugs and feature requests on our GitHub.*

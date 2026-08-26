@@ -1,11 +1,11 @@
-# TradeSlate
+# TradeSNA
 
-[![Release](https://img.shields.io/github/v/release/Aikzar/TradeSlate?style=flat-square)](https://github.com/Aikzar/TradeSlate/releases)
+[![Release](https://img.shields.io/github/v/release/Aikzar/TradeSNA?style=flat-square)](https://github.com/Aikzar/TradeSNA/releases)
 [![License](https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-green?style=flat-square)](LICENSE)
 
 **The Offline-First, AI-Augmented Trading Journal for Power Users.**
 
-TradeSlate is a professional-grade trading journal built for speed, privacy, and deep analysis. It combines the reliability of offline storage with the power of optional AI analysis, designed specifically for futures and crypto traders who demand control over their data.
+TradeSNA is a professional-grade trading journal built for speed, privacy, and deep analysis. It combines the reliability of offline storage with the power of optional AI analysis, designed specifically for futures and crypto traders who demand control over their data.
 
 ---
 
@@ -165,8 +165,8 @@ Total control over your environment.
 
 ## 🛠️ Installation
 
-1.  **Download**: Get the latest release from the [Releases](https://github.com/Aikzar/TradeSlate/releases) page.
-2.  **Install**: Run `TradeSlate-Setup-1.0.0.exe`.
+1.  **Download**: Get the latest release from the [Releases](https://github.com/Aikzar/TradeSNA/releases) page.
+2.  **Install**: Run `TradeSNA-Setup-1.0.0.exe`.
 3.  **Setup**:
     *   (Optional) Go to **Settings** -> **AI Assistant** to enter your Google Gemini API Key, optainable via [Google AI Studio](https://aistudio.google.com/), for AI features.
     *   (Optional) Seed demo data to explore the features.

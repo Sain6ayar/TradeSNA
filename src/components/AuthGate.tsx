@@ -79,7 +79,7 @@ function SignInScreen() {
             <form onSubmit={submit} style={styles.card}>
                 <div style={styles.brand}>
                     <LineChart size={22} style={{ color: 'var(--accent)' }} />
-                    <span style={styles.brandText}>TradeSlate</span>
+                    <span style={styles.brandText}>TradeSNA</span>
                 </div>
 
                 <p style={styles.subtitle}>
